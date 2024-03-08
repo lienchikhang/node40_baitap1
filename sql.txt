@@ -1,0 +1,281 @@
+# tạo DATABASE
+
+create database db_app_food;
+
+use db_app_food;
+
+# tạo tables
+
+create table Users (
+	user_id int primary key auto_increment,
+	full_name varchar(150),
+	email varchar(150),
+	user_password varchar(150)
+);
+
+create table Restaurants (
+	res_id int primary key auto_increment,
+	res_name varchar(150),
+	image varchar(150),
+	res_desc varchar(150)
+);
+
+create table food_type (
+	type_id int primary key auto_increment,
+	type_name varchar(150)
+);
+
+create table Foods (
+	food_id int primary key auto_increment,
+	food_name varchar(150),
+	image varchar(150),
+	price float,
+	food_desc varchar(150),
+	type_id int,
+	foreign key (type_id) references food_type(type_id)
+);
+
+create table sub_food (
+	sub_id int primary key auto_increment,
+	sub_name varchar(150),
+	sub_price float,
+	food_id int,
+	foreign key (food_id) references Foods(food_id)
+);
+
+create table Orders (
+	user_id int,
+	food_id int,
+	amount int,
+	order_code varchar(10),
+	arr_sub_id varchar(150),
+	foreign key (user_id) references Users(user_id),
+	foreign key (food_id) references Foods(food_id),
+	primary key (user_id, food_id)
+);
+
+
+create table like_res (
+	user_id int,
+	res_id int,
+	date_like datetime,
+	foreign key (user_id) references Users(user_id),
+	foreign key (res_id) references Restaurants(res_id),
+	primary key (user_id, res_id)
+);
+
+create table rate_res (
+	user_id int,
+	res_id int,
+	amount int,
+	date_rate datetime,
+	foreign key (user_id) references Users(user_id),
+	foreign key (res_id) references Restaurants(res_id),
+	primary key (user_id, res_id)
+);
+
+# insert data
+
+insert into Users (full_name, email, user_password)
+values 
+	('John Doe', 'john@example.com', 'password123'),
+	('Alice Smith', 'alice@example.com', 'alicepassword'),
+	('Bob Johnson', 'bob@example.com', 'bobjohnsonpass'),
+	('Emily Davis', 'emily@example.com', 'emilypassword'),
+	('Michael Wilson', 'michael@example.com', 'michaelpassword'),
+	('Sarah Brown', 'sarah@example.com', 'sarahpassword'),
+	('David Jones', 'david@example.com', 'davidpassword'),
+	('Jessica Taylor', 'jessica@example.com', 'jessicapassword'),
+	('Matthew Evans', 'matthew@example.com', 'matthewpassword'),
+	('Jennifer Garcia', 'jennifer@example.com', 'jenniferpassword'),
+	('James Martinez', 'james@example.com', 'jamespassword'),
+	('Patricia Robinson', 'patricia@example.com', 'patriciapassword'),
+	('Daniel Lee', 'daniel@example.com', 'danielpassword'),
+	('Linda Hernandez', 'linda@example.com', 'lindapassword'),
+	('Christopher Young', 'christopher@example.com', 'christopherpassword'),
+	('Mary King', 'mary@example.com', 'marypassword'),
+	('Joshua Wright', 'joshua@example.com', 'joshuapassword'),
+	('Amanda Lopez', 'amanda@example.com', 'amandapassword'),
+	('Kevin Hill', 'kevin@example.com', 'kevinpassword'),
+	('Karen Scott', 'karen@example.com', 'karenpassword');
+
+insert into Restaurants (res_name, image, res_desc)
+values
+	('Restaurant A', 'image_url_1.jpg', 'Description for Restaurant A'),
+	('Restaurant B', 'image_url_2.jpg', 'Description for Restaurant B'),
+	('Restaurant C', 'image_url_3.jpg', 'Description for Restaurant C'),
+	('Restaurant D', 'image_url_4.jpg', 'Description for Restaurant D'),
+	('Restaurant E', 'image_url_5.jpg', 'Description for Restaurant E'),
+	('Restaurant F', 'image_url_6.jpg', 'Description for Restaurant F'),
+	('Restaurant G', 'image_url_7.jpg', 'Description for Restaurant G'),
+	('Restaurant H', 'image_url_8.jpg', 'Description for Restaurant H'),
+	('Restaurant I', 'image_url_9.jpg', 'Description for Restaurant I'),
+	('Restaurant J', 'image_url_10.jpg', 'Description for Restaurant J');
+
+insert into food_type(type_name)
+values 
+	('Vietnamese'),
+	('Italian'),
+	('Japanese'),
+	('Mexican'),
+	('Chinese'),
+	('Indian'),
+	('Thai'),
+	('French'),
+	('Greek'),
+	('Spanish'),
+	('Korean'),
+	('American'),
+	('Mediterranean'),
+	('Brazilian'),
+	('Turkish');
+
+insert into Foods (food_name, image, price, food_desc, type_id)
+values 
+	('Pho', 'pho_image.jpg', 5.99, 'Traditional Vietnamese noodle soup.', 1),
+	('Pizza Margherita', 'pizza_margherita.jpg', 8.99, 'Classic Italian pizza with tomato, mozzarella, and basil.', 2),
+	('Sushi Roll', 'sushi_roll.jpg', 12.99, 'Assorted sushi rolls with fresh fish and vegetables.', 3),
+	('Tacos', 'tacos_image.jpg', 6.49, 'Authentic Mexican tacos with choice of meat and toppings.', 4),
+	('Kung Pao Chicken', 'kung_pao_chicken.jpg', 9.99, 'Spicy Chinese stir-fry dish with chicken, peanuts, and vegetables.', 5),
+	('Butter Chicken', 'butter_chicken.jpg', 11.99, 'Creamy Indian curry dish with tender chicken pieces.', 6),
+	('Pad Thai', 'pad_thai.jpg', 8.49, 'Thai stir-fried noodle dish with shrimp, tofu, and peanuts.', 7),
+	('Croissant', 'croissant_image.jpg', 3.49, 'Flaky French pastry filled with butter.', 8),
+	('Gyros', 'gyros_image.jpg', 10.99, 'Greek dish of roasted meat served in a pita bread with tzatziki sauce.', 9),
+	('Paella', 'paella_image.jpg', 14.99, 'Spanish rice dish with saffron, seafood, and chorizo.', 10),
+	('Bibimbap', 'bibimbap_image.jpg', 11.49, 'Korean mixed rice dish with assorted vegetables, meat, and fried egg.', 11),
+	('Hamburger', 'hamburger_image.jpg', 7.99, 'Classic American beef burger with lettuce, tomato, and cheese.', 12),
+	('Greek Salad', 'greek_salad.jpg', 9.49, 'Fresh Mediterranean salad with tomatoes, cucumbers, olives, and feta cheese.', 13),
+	('Feijoada', 'feijoada_image.jpg', 13.49, 'Brazilian stew of black beans with pork and sausage.', 14),
+	('Kebab', 'kebab_image.jpg', 8.99, 'Turkish grilled meat skewers served with rice and salad.', 15),
+	('Banh Mi', 'banh_mi.jpg', 6.99, 'Vietnamese baguette sandwich filled with meats, pickled vegetables, and herbs.', 1),
+	('Lasagna', 'lasagna_image.jpg', 10.99, 'Layered Italian pasta dish with meat sauce and cheese.', 2),
+	('Tempura', 'tempura_image.jpg', 12.49, 'Japanese dish of battered and deep-fried seafood and vegetables.', 3),
+	('Burrito', 'burrito_image.jpg', 7.99, 'Large Mexican tortilla wrap filled with beans, rice, meat, and salsa.', 4),
+	('Mapo Tofu', 'mapo_tofu.jpg', 9.99, 'Spicy Chinese dish of tofu and minced meat in a chili and bean-based sauce.', 5),
+	('Naan', 'naan_image.jpg', 3.99, 'Traditional Indian flatbread baked in a tandoor oven.', 6),
+	('Tom Yum Soup', 'tom_yum_soup.jpg', 7.49, 'Spicy Thai soup with shrimp, lemongrass, and chili.', 7),
+	('Crepes', 'crepes_image.jpg', 5.49, 'Thin French pancakes served with sweet or savory fillings.', 8),
+	('Souvlaki', 'souvlaki_image.jpg', 11.99, 'Greek skewered and grilled meat served with pita bread and tzatziki sauce.', 9),
+	('Tapas', 'tapas_image.jpg', 9.99, 'Assorted Spanish appetizers, typically served with drinks.', 10),
+	('Kimchi Fried Rice', 'kimchi_fried_rice.jpg', 10.49, 'Korean fried rice dish with kimchi, pork, and vegetables.', 11),
+	('BBQ Ribs', 'bbq_ribs.jpg', 15.99, 'American-style barbecue ribs, slow-cooked and smothered in BBQ sauce.', 12),
+	('Greek Moussaka', 'moussaka.jpg', 12.99, 'Layered Greek casserole dish with eggplant, minced meat, and bechamel sauce.', 13),
+	('Pão de Queijo', 'pao_de_queijo.jpg', 6.99, 'Brazilian cheese bread rolls, crispy on the outside and chewy on the inside.', 14),
+	('Baklava', 'baklava.jpg', 8.49, 'Turkish pastry made of layers of filo dough filled with chopped nuts and sweetened with honey or syrup.', 15);
+
+insert into sub_food (sub_name, sub_price, food_id)
+values 
+	('Extra Beef', 2.99, 1),
+	('Garlic Bread', 3.49, 2),
+	('Salmon Nigiri', 4.99, 3),
+	('Guacamole', 1.99, 4),
+	('Spring Rolls', 2.49, 5),
+	('Naan Bread', 1.49, 6),
+	('Shrimp Tom Yum', 5.49, 7),
+	('Nutella Crepe', 4.99, 8),
+	('Extra Tzatziki', 1.29, 9),
+	('Turkish Delight', 2.99, 10);
+
+insert into Orders (user_id, food_id, amount, order_code, arr_sub_id)
+values
+	(1, 1, 2, 'ABCD123', '1,2'),
+	(2, 3, 1, 'EFGH456', '3'),
+	(3, 5, 2, 'IJKL789', '4,5'),
+	(4, 7, 1, 'MNOP123', '6,7'),
+	(5, 9, 3, 'QRST567', '8'),
+	(6, 11, 2, 'UVWX890', '9,10'),
+	(7, 13, 1, 'YZAB123', '11'),
+	(8, 15, 2, 'CDEF456', '12,13'),
+	(9, 17, 3, 'GHIJ789', '14,15'),
+	(10, 19, 1, 'KLMN012', '1'),
+	(11, 21, 2, 'OPQR345', '2,3'),
+	(12, 23, 1, 'STUV678', '4'),
+	(13, 25, 3, 'WXYZ901', '5,6'),
+	(14, 27, 1, '2345ABC', '7'),
+	(15, 29, 2, '6789DEF', '8,9'),
+	(16, 2, 3, '0123GHI', '10'),
+	(17, 4, 1, '4567JKL', '11,12'),
+	(18, 6, 2, '89MNO1', '13,14'),
+	(19, 8, 1, '2345PQR', '15'),
+	(20, 10, 2, '6789STU', '1,2'),
+	(1, 12, 3, '0123VWX', '3'),
+	(2, 14, 1, '4567YZA', '4,5'),
+	(3, 16, 2, '89BCDEF', '6'),
+	(4, 18, 1, 'GHIJKLM', '7,8'),
+	(5, 20, 2, 'NOPQRST', '9,10');
+
+
+insert into like_res (user_id, res_id, date_like)
+values
+	(1, 1, '2024-03-04 08:30:00'),
+	(2, 3, '2024-03-04 09:45:00'),
+	(3, 5, '2024-03-04 10:20:00'),
+	(3, 6, '2024-03-04 10:20:00'),
+	(3, 7, '2024-03-04 10:20:00'),
+	(4, 7, '2024-03-04 11:10:00'),
+	(4, 8, '2024-03-04 11:10:00'),
+	(5, 9, '2024-03-04 12:15:00'),
+	(6, 2, '2024-03-04 13:30:00'),
+	(7, 4, '2024-03-04 14:45:00'),
+	(8, 6, '2024-03-04 15:20:00'),
+	(9, 8, '2024-03-04 16:10:00'),
+	(10, 10, '2024-03-04 17:05:00'),
+	(1, 2, '2024-03-04 08:30:00'),
+	(2, 1, '2024-03-04 09:45:00'),
+	(1, 3, '2024-03-04 08:30:00'),
+	(1, 4, '2024-03-04 09:45:00'),
+	(2, 4, '2024-03-04 10:20:00'),
+	(2, 5, '2024-03-04 11:10:00');
+
+
+insert into rate_res (user_id, res_id, amount, date_rate)
+values
+(1, 1, 4, '2024-03-04 08:30:00'),
+(2, 3, 5, '2024-03-04 09:45:00'),
+(3, 5, 3, '2024-03-04 10:20:00'),
+(4, 7, 4, '2024-03-04 11:10:00'),
+(5, 9, 4, '2024-03-04 12:15:00'),
+(6, 2, 5, '2024-03-04 13:30:00'),
+(7, 4, 3, '2024-03-04 14:45:00'),
+(8, 6, 4, '2024-03-04 15:20:00'),
+(9, 8, 5, '2024-03-04 16:10:00'),
+(10, 10, 3, '2024-03-04 17:05:00');
+
+# query
+
+# Tìm 5 người đã like nhà hàng nhiều nhất
+select u.user_id, full_name, count(res_id) as totalLike
+from Users u
+join like_res lr on u.user_id = lr.user_id
+group by u.user_id
+order by totalLike desc
+limit 5;
+
+# Tìm 2 nhà hàng có lượt like nhiều nhất
+select r.res_id, res_name, count(lr.user_id) as totalLike
+from Restaurants r
+join like_res lr on r.res_id = lr.res_id
+group by r.res_id
+order by totalLike desc
+limit 2;
+
+# Tìm người đã đặt hàng nhiều nhất
+select u.full_name, sum(amount) as 'SL'
+from Users u 
+join Orders o on u.user_id = o.user_id
+group by u.user_id
+order by SL DESC
+limit 1;
+
+/*
+Tìm người dùng không hoạt động trong hệ thống 
+(không đặt hàng, không like, không đánh giá nhà 
+hàng)
+*/
+
+select u.full_name
+from Users u 
+left join Orders o on u.user_id = o.user_id
+left join rate_res rr on u.user_id = rr.user_id
+left join like_res lr on u.user_id = lr.user_id
+where o.user_id is null and rr.amount is null and lr.user_id is null;
